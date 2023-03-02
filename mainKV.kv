@@ -1,0 +1,250 @@
+MenuScreen:
+
+<MenuScreen>:
+    RelativeLayout:
+        orientation: "vertical"
+        Label:
+            text: root.greeting_text
+            font_size: root.greeting_size
+            color: 1, .5, .5, root.greeting_opacity
+            pos_hint: {"center_x": .5, "center_y": .8}
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: .15, .2
+            pos_hint: {"center_x": .5, "center_y": .5}
+            Button:
+                text: "Start"
+                font_size: root.menu_font_size
+                background_color: (0.0, 0.0, 0.0, 0.0)
+                on_press: root.manager.current = 'game'
+                # on_press: root.start()
+            Button:
+                text: "Settings"
+                font_size: root.menu_font_size
+                background_color: (0.0, 0.0, 0.0, 0.0)
+                on_press: root.manager.current = 'settings'
+            Button:
+                text: "Exit"
+                font_size: root.menu_font_size
+                background_color: (0.0, 0.0, 0.0, 0.0)
+                on_press: root.user_exit()
+
+<Settings>:
+    RelativeLayout:
+        orientation: "vertical"
+        Label:
+            text: "Settings"
+            font_size: 20
+            color: 1, .5, .5, 1
+            pos_hint: {"center_x": .5, "center_y": .8}
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, .1
+            pos_hint: {"center_x": .5, "center_y": .5}
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: .5, .1
+                pos_hint: {"center_x": .5, "center_y": .5}
+                Label:
+                    text: "Resolution: "
+                    font_size: 15
+                Button:
+                    text: "<"
+                    font_size: 15
+                    size_hint: .1, .15
+                    pos_hint: {"center_y": .5}
+                    background_color: (1.0, 1.0, 1.0, 1.0)
+                    on_press: root.left_resolution_text()
+                Label:
+                    text: root.display_resolution_text
+                    font_size: 15
+                Button:
+                    text: ">"
+                    font_size: 15
+                    size_hint: .1, .15
+                    pos_hint: {"center_y": .5}
+                    background_color: (1.0, 1.0, 1.0, 1.0)
+                    on_press: root.right_resolution_text()
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: .5, .1
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: (1.0, 1.0, 1.0, 1.0)
+                Label:
+                    text: "Sound: "
+                    font_size: 15
+                Switch:
+                    font_size: 15
+        Button:
+            text: "Back"
+            font_size: 15
+            size_hint: .1, .1
+            pos_hint: {"center_x": .1, "center_y": .1}
+            background_color: (1.0, 1.0, 1.0, 1.0)
+            on_press: root.manager.current = 'menu'
+
+
+<GameWidget>:
+    money_text: money_text
+    fighter_money: fighter_money
+    fighter_count: fighter_count
+    bomber_money: bomber_money
+    bomber_count: bomber_count
+    attack_speed: attack_speed
+    laser_range_menu: laser_range_menu
+    ship_move_speed: ship_move_speed
+    max_enemies: max_enemies
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.box_layout_x, 1
+        pos: root.box_layout_x, 0
+        Label:
+            id: money_text
+            size_hint: .5, .03
+            text_size: self.width-10, self.height-5
+            font_size: self.width/40
+            halign: 'left'
+            valign: 'middle'
+            pos_hint: {"top": 1}
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                id: fighter_money
+                on_press: root.make_upgrade("fighter_money")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: fighter_count
+                on_press: root.make_upgrade("fighter_count")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: bomber_money
+                on_press: root.make_upgrade("bomber_money")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: bomber_count
+                on_press: root.make_upgrade("bomber_count")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: attack_speed
+                on_press: root.make_upgrade("attack_speed")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: laser_range_menu
+                on_press: root.make_upgrade("laser_range_menu")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: ship_move_speed
+                on_press: root.make_upgrade("ship_move_speed")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Button:
+                id: max_enemies
+                on_press: root.make_upgrade("max_enemies")
+                text_size: self.width-10, self.height-5
+                font_size: self.width/80
+            Label:
+                size: 1, 1
+                text_size: self.width, self.height
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+
+<GameWidget2>:
+    
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.box_layout_x, 1
+        pos: root.box_layout_x, 0
+        Label:
+            id: "money_text"
+            text: root.for_kivy_text["Money"]
+            size_hint: 1, .03
+            text_size: self.width-10, self.height-5
+            halign: 'left'
+            valign: 'middle'
+            pos_hint: {"top": 1}
+            Button:
+                id: "FighterCount"
+                text: root.for_kivy_text["FighterCount"]
+                disabled: root.for_kivy_status["FighterCount"]
+                on_press: root.make_upgrade("FighterCount")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Button:
+                id: "BomberMoney"
+                text: root.for_kivy_text["BomberMoney"]
+                # disabled: root.for_kivy_status["BomberMoney"]
+                on_press: root.make_upgrade("BomberMoney")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Button:
+                id: "BomberCount"
+                text: root.for_kivy_text["BomberCount"]
+                disabled: root.for_kivy_status["BomberCount"]
+                on_press: root.make_upgrade("BomberCount")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Button:
+                id: "AttackSpeed"
+                text: root.for_kivy_text["AttackSpeed"]
+                disabled: root.for_kivy_status["AttackSpeed"]
+                on_press: root.make_upgrade("AttackSpeed")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Button:
+                id: "Ship_move_speed"
+                text: root.for_kivy_text["Ship_move_speed"]
+                disabled: root.for_kivy_status["Ship_move_speed"]
+                on_press: root.make_upgrade("Ship_move_speed")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Button:
+                id: "Max_enemies"
+                text: root.for_kivy_text["Max_enemies"]
+                disabled: root.for_kivy_status["Max_enemies"]
+                on_press: root.make_upgrade("Max_enemies")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Button:
+                id: "LaserRange"
+                text: root.for_kivy_text["LaserRange"]
+                disabled: root.for_kivy_status["LaserRange"]
+                on_press: root.make_upgrade("LaserRange")
+                size_hint: 1, .09
+                text_size: self.width-10, self.height-5
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            Label:
+                size_hint: 1, 1
+                text_size: self.width, self.height
+                halign: 'left'
+                valign: 'top'
+                pos_hint: {"top": 1}
+            
