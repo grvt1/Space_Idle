@@ -276,11 +276,6 @@ def update_menu(self):
                     conditions_level = self.grid_menu_info[i]['current_level']
                     level_needed = self.grid_menu_info[i]["condition"]["level_needed"]
 
-                    if (i == 'fighter_count' or i == 'bomber_count') and True:
-                        # print(condition_upgrade)
-                        print('Conditional upgrade level: ' + str(conditions_level))
-                        print('Level needed: ' + str(level_needed))
-
                     if conditions_level > level_needed:
                         self.grid_menu_info[i]["status"] = True
                         self.disable_upgrade(i)
