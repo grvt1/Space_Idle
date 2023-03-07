@@ -164,23 +164,42 @@ def update_menu_css(self):
     
 
 def hide_upgrade(self, i):
-    if self.grid_menu_info[i]["hide"] == True:
-        self.fighter_money.height, self.fighter_money.size_hint_y, self.fighter_money.opacity, self.fighter_money.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:
-        self.fighter_count.height, self.fighter_count.size_hint_y, self.fighter_count.opacity, self.fighter_count.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:
-        self.bomber_money.height, self.bomber_money.size_hint_y, self.bomber_money.opacity, self.bomber_money.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:
-        self.bomber_count.height, self.bomber_count.size_hint_y, self.bomber_count.opacity, self.bomber_count.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:
-        self.attack_speed.height, self.attack_speed.size_hint_y, self.attack_speed.opacity, self.attack_speed.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:
-        self.laser_range_menu.height, self.laser_range_menu.size_hint_y, self.laser_range_menu.opacity, self.laser_range_menu.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:    
-        self.ship_move_speed.height, self.ship_move_speed.size_hint_y, self.ship_move_speed.opacity, self.ship_move_speed.disabled = 0, None, 0, True
-    elif self.grid_menu_info[i]["hide"] == True:        
-        self.max_enemies.height, self.max_enemies.size_hint_y, self.max_enemies.opacity, self.max_enemies.disabled = 0, None, 0, True
+    if self.grid_menu_info[i]['hide']:
+        if i == 'fighter_money':
+            self.fighter_money.height, self.fighter_money.size_hint_y, self.fighter_money.disabled, self.fighter_money.opacity = 0, None, True, 0
+        elif i == 'fighter_count':
+            self.fighter_count.height, self.fighter_count.size_hint_y, self.fighter_count.disabled, self.fighter_count.opacity = 0, None, True, 0
+        elif i == 'bomber_money':
+            self.bomber_money.height, self.bomber_money.size_hint_y, self.bomber_money.disabled, self.bomber_money.opacity = 0, None, True, 0
+        elif i == 'bomber_count':
+            self.bomber_count.height, self.bomber_count.size_hint_y, self.bomber_count.disabled, self.bomber_count.opacity = 0, None, True, 0
+        elif i == 'attack_speed':
+            self.attack_speed.height, self.attack_speed.size_hint_y, self.attack_speed.disabled, self.attack_speed.opacity = 0, None, True, 0
+        elif i == 'laser_range_menu':
+            self.laser_range_menu.height, self.laser_range_menu.size_hint_y, self.laser_range_menu.disabled, self.laser_range_menu.opacity = 0, None, True, 0
+        elif i == 'ship_move_speed':
+            self.ship_move_speed.height, self.ship_move_speed.size_hint_y, self.ship_move_speed.disabled, self.ship_move_speed.opacity = 0, None, True, 0
+        elif i == 'max_enemies':
+            self.max_enemies.height, self.max_enemies.size_hint_y, self.max_enemies.disabled, self.max_enemies.opacity = 0, None, True, 0
 
+def disable_upgrade(self, i):
+    if self.grid_menu_info[i]['status']:
+        if i == 'fighter_money':
+            self.fighter_money.disabled = True
+        elif i == 'fighter_count':
+            self.fighter_count.disabled = True
+        elif i == 'bomber_money':
+            self.bomber_money.disabled = True
+        elif i == 'bomber_count':
+            self.bomber_count.disabled = True
+        elif i == 'attack_speed':
+            self.attack_speed.disabled = True
+        elif i == 'laser_range_menu':
+            self.laser_range_menu.disabled = True
+        elif i == 'ship_move_speed':
+            self.ship_move_speed.disabled = True
+        elif i == 'max_enemies':
+            self.max_enemies.disabled = True
 
 def make_upgrade(self, i):
     self.grid_menu_info[i]["status"] = True
@@ -194,13 +213,11 @@ def make_upgrade(self, i):
         self.E_CLASS["Fighter"]["money"] *= self.grid_menu_info[i]["action"]
     elif i == "fighter_count":
         self.E_CLASS["Fighter"]["max_online"] += self.grid_menu_info[i]["action"]
-        self.bomber_count.disabled = True
         self.build_enemy_ship()
     elif i == "bomber_money":
         self.E_CLASS["Bomber"]["money"] *= self.grid_menu_info[i]["action"]
     elif i == "bomber_count":
         self.E_CLASS["Bomber"]["max_online"] += self.grid_menu_info[i]["action"]
-        self.fighter_count.disabled = True
         self.build_enemy_ship()
     elif i == "attack_speed":
         self.laser_shoot_speed *= self.grid_menu_info[i]["action"]
@@ -210,8 +227,10 @@ def make_upgrade(self, i):
         self.default_speed_x *= self.grid_menu_info[i]["action"]
     elif i == "max_enemies":
         self.NB_lines += self.grid_menu_info[i]["action"]
-        self.grid_menu_info["fighter_count"]["condition"]["level_needed"] = self.NB_lines/2
-        
+        self.update_condition_menu()
+        print('It is done')
+
+
         # rebuild vertical lines
         for i in range(0, self.V_NB_LINES):
             self.v_lines[i].points = [-2, -2, -1, -1]
@@ -238,44 +257,46 @@ def make_upgrade(self, i):
             self.enemy_ship_coordinates[i].update({"x1": x1, "x2": x2, "x3": x3, "y2": y2})
 
         self.center_cross = self.enemy_ship_coordinates[0]["y1"] - (self.enemy_ship_coordinates[0]["y1"] + self.enemy_ship_coordinates[0]["y2"])/2
-        self.length_cross = (self.enemy_ship_coordinates[0]["x1"] - self.enemy_ship_coordinates[0]["x3"])/3    
+        self.length_cross = (self.enemy_ship_coordinates[0]["x1"] - self.enemy_ship_coordinates[0]["x3"])/3
 
-    
-
+    self.update_menu()
     self.update_perspective()
 
 def update_condition_menu(self):
-    # self.grid_menu_info["BomberMoney"]["condition"]["level_needed"] = 0
-
-
-    max_enemies = 0
-    for i in self.E_CLASS:
-        max_enemies += self.E_CLASS[i]["max_online"]
-
-    self.grid_menu_info["fighter_count"]["condition"]["level_needed"] = max_enemies-1
-    self.grid_menu_info["bomber_count"]["condition"]["level_needed"] = max_enemies-1
+    self.grid_menu_info["fighter_count"]["condition"]["level_needed"] = self.grid_menu_info['max_enemies']['current_level']
+    self.grid_menu_info["bomber_count"]["condition"]["level_needed"] = self.grid_menu_info['max_enemies']['current_level']
 
 def update_menu(self):
-    self.update_condition_menu()
     for i in self.grid_menu_info:
         if i != "Money":
-            self.grid_menu_info[i]["hide"] = False
-            self.grid_menu_info[i]["status"] = False
             if self.grid_menu_info["Money"]["cost"] >= self.grid_menu_info[i]["cost"] and self.grid_menu_info[i]["current_level"] <= self.grid_menu_info[i]["max_level"]:
-                if self.grid_menu_info[i]["max_level"] == self.grid_menu_info[i]["current_level"]:
-                    self.grid_menu_info[i]["hide"] = True
-                    self.hide_upgrade(i)
-                
                 if self.grid_menu_info[i]["condition"]["upgrade"] != "":
-                    condition_upgrade = self.grid_menu_info[i]["condition"]["upgrade"]
-                    conditional_upgrade_level = self.grid_menu_info[condition_upgrade]["current_level"]
-                    condition_level = self.grid_menu_info[i]["condition"]["level_needed"]
-                    if conditional_upgrade_level < condition_level:
+                    # condition_upgrade = self.grid_menu_info[i]["condition"]["upgrade"]
+                    # conditions_level = self.grid_menu_info[condition_upgrade]["current_level"]
+                    conditions_level = self.grid_menu_info[i]['current_level']
+                    level_needed = self.grid_menu_info[i]["condition"]["level_needed"]
+
+                    if (i == 'fighter_count' or i == 'bomber_count') and True:
+                        # print(condition_upgrade)
+                        print('Conditional upgrade level: ' + str(conditions_level))
+                        print('Level needed: ' + str(level_needed))
+
+                    if conditions_level > level_needed:
                         self.grid_menu_info[i]["status"] = True
-                        self.grid_menu_info[i]["hide"] = True
-                        self.hide_upgrade(i)
+                        self.disable_upgrade(i)
+                    else:
+                        self.grid_menu_info[i]["status"] = False
+                else:
+                    self.grid_menu_info[i]["status"] = False
+
+            elif self.grid_menu_info[i]["max_level"] <= self.grid_menu_info[i]["current_level"]:
+                self.grid_menu_info[i]["hide"] = True
+                self.hide_upgrade(i)
+
             else:
                 self.grid_menu_info[i]["status"] = True
+                self.disable_upgrade(i)
+
     self.update_menu_text()
     self.update_menu_status()
     self.update_menu_css()

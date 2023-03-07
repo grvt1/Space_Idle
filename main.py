@@ -21,7 +21,7 @@ class mainKV(App):
 
 
 class GameWidget(Screen):
-    from game_grid import update_horizontal_lines, update_vertical_lines, build_horizontal_lines, build_vertical_lines, scroll_down, update_perspective, build_grid_menu, update_money, init_menu, make_upgrade, update_menu, update_condition_menu, update_menu_text, update_menu_status, update_menu_css, hide_upgrade
+    from game_grid import update_horizontal_lines, update_vertical_lines, build_horizontal_lines, build_vertical_lines, scroll_down, update_perspective, build_grid_menu, update_money, init_menu, make_upgrade, update_menu, update_condition_menu, update_menu_text, update_menu_status, update_menu_css, hide_upgrade, disable_upgrade
     from game_main_ship import build_main_ship, move_main_ship, update_main_ship, lowest_enemy_x, build_cross, update_cross_coordinates, cross_get_to_coordinates
     from game_enemy import build_enemy_ship, status_offline, x_position, coordinates_enemy_ship, update_enemy_ship, off_screen_enemy, update_NB_ship, get_class, turn_off_enemy
 
@@ -38,14 +38,14 @@ class GameWidget(Screen):
     grid_menu = []
     grid_menu_info = {
 "Money": {"Main_text": "Credits", "bottom_text": 0, "Info_text": "", "cost": 10000, "final_text": "aa", "type": "label"},
-"fighter_money": {"Main_text": "Fighter value", "bottom_text": "Increase by 30%", "Info_text": "", "action": 1.3, "cost": 10, "margin": 1.3, "status": True, "final_text": "", "max_level": 100, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
-"fighter_count": {"Main_text": "Increase Fighters", "bottom_text": "Increase by 1", "Info_text": "", "action": 1, "cost": 100, "margin": 1.8, "status": True, "final_text": "", "max_level": 100, "current_level": 3, "condition": {"upgrade": "max_enemies", "level_needed": 0}, "hide": False},
-"bomber_money": {"Main_text": "Bomber value", "bottom_text": "Increase by 10%", "Info_text": "", "action": 1.5, "cost": 100, "margin": 1.3, "status": True, "final_text": "", "max_level": 100, "current_level": 1, "condition": {"upgrade": "bomber_count", "level_needed": 0}, "hide": False},
-"bomber_count": {"Main_text": "Increase Bombers", "bottom_text": "Increase by 1", "Info_text": "", "action": 1, "cost": 1000, "margin": 1.9, "status": True, "final_text": "", "max_level": 100, "current_level": 1, "condition": {"upgrade": "max_enemies", "level_needed": 0}, "hide": False},
-"attack_speed": {"Main_text": "Attack Speed", "bottom_text": "Increase by 10%", "Info_text": "", "action": .9, "cost": 50, "margin": 4.1, "status": True, "final_text": "", "max_level": 25, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
-"laser_range_menu": {"Main_text": "Laser range", "bottom_text": "Increase by 3 clicks", "Info_text": "", "action": 3, "cost": 650, "margin": 3.6, "status": True, "final_text": "", "max_level": 25, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
-"ship_move_speed": {"Main_text": "Ship move speed", "bottom_text": "Increase by 10%", "Info_text": "", "action": 1.1, "cost": 50,  "margin": 10, "status": True, "final_text": "", "max_level": 10, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
-"max_enemies": {"Main_text": "Increase max enemies", "bottom_text": "Increase by 1", "Info_text": "", "action": 2, "cost": 1,  "margin": 1.1, "status": True, "final_text": "", "max_level": 23, "current_level": 3, "condition": {"upgrade": "", "level_needed": 0}, "hide": False}
+"fighter_money": {"Main_text": "Fighter value", "bottom_text": "Increase by 30%", "Info_text": "", "action": 1.3, "cost": 10, "margin": 1.3, "status": False, "final_text": "", "max_level": 100, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
+"fighter_count": {"Main_text": "Increase Fighters", "bottom_text": "Increase by 1", "Info_text": "", "action": 1, "cost": 100, "margin": 1.8, "status": False, "final_text": "", "max_level": 100, "current_level": 3, "condition": {"upgrade": "max_enemies", "level_needed": 0}, "hide": False},
+"bomber_money": {"Main_text": "Bomber value", "bottom_text": "Increase by 10%", "Info_text": "", "action": 1.5, "cost": 100, "margin": 1.3, "status": False, "final_text": "", "max_level": 100, "current_level": 1, "condition": {"upgrade": "bomber_count", "level_needed": 0}, "hide": False},
+"bomber_count": {"Main_text": "Increase Bombers", "bottom_text": "Increase by 1", "Info_text": "", "action": 1, "cost": 1000, "margin": 1.9, "status": False, "final_text": "", "max_level": 100, "current_level": 1, "condition": {"upgrade": "max_enemies", "level_needed": 0}, "hide": False},
+"attack_speed": {"Main_text": "Attack Speed", "bottom_text": "Increase by 10%", "Info_text": "", "action": .9, "cost": 50, "margin": 4.1, "status": False, "final_text": "", "max_level": 25, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
+"laser_range_menu": {"Main_text": "Laser range", "bottom_text": "Increase by 3 clicks", "Info_text": "", "action": 3, "cost": 650, "margin": 3.6, "status": False, "final_text": "", "max_level": 25, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
+"ship_move_speed": {"Main_text": "Ship move speed", "bottom_text": "Increase by 10%", "Info_text": "", "action": 1.1, "cost": 50,  "margin": 10, "status": False, "final_text": "", "max_level": 10, "current_level": 1, "condition": {"upgrade": "", "level_needed": 0}, "hide": False},
+"max_enemies": {"Main_text": "Increase max enemies", "bottom_text": "Increase by 1", "Info_text": "", "action": 2, "cost": 1000,  "margin": 5, "status": False, "final_text": "", "max_level": 23, "current_level": 3, "condition": {"upgrade": "", "level_needed": 0}, "hide": False}
                 }
 
     money_text = ObjectProperty(None)
@@ -276,5 +276,4 @@ class GameWidget(Screen):
             if self.enemy_ship_coordinates[self.cross_lock_to]["y2"] <= self.height*.15:
                 self.lowest_enemy_x()
 
-        print(self.laser_range_loops)
 mainKV().run()
